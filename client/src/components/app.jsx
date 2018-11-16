@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Carousel from './carousel.jsx'
 import styles from '../../Styles/app.css';
+import axios from 'axios';
 
 
 class App extends React.Component {
@@ -13,10 +14,12 @@ class App extends React.Component {
     };
   }
 
-  componentDidMount(id = '1') {
-    fetch(`/api/alsoBought/${id}`)
-      .then(response => response.json())
-      .then(data => this.setState({stocks: data}));
+  componentDidMount(id = 1) {
+    axios.get(`/api/alsoBought/${id}`)
+      .then(response => {
+        let data = response.data;
+        this.setState({stocks: data})
+      })
   }
 
   onLeftButtonClick() {

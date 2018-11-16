@@ -1,38 +1,20 @@
-const faker = require('faker');
-const Stocks = require('./Stocks.js');
-const db = require('./index.js');
+const neo4j = require('neo4j-driver').v1;
+const driver = neo4j.driver("bolt://127.0.0.1:7687", neo4j.auth.basic("neo4j", "javier"));
+const session = driver.session();
+const seed = require('./scheme.js');
 
-const generateRandomStockPrice = () => (Math.random() * 999).toFixed(2);
-
-const generateRandomRating = () => (Math.random() * 99).toFixed(0);
-
-const generateRandomPriceChange = () => (Math.random() * 8).toFixed(2);
-
-
-const buyOrSell = () => {
-  const arr = ['buy', 'sell'];
-  return arr[Math.round(Math.random())];
-};
-
-const sampleGenerator = () => {
-  const stocks = [];
-  for (let i = 1; i <= 100; i++) {
-    const obj = {};
-    obj.id = i;
-    obj.name = faker.company.companyName();
-    obj.rating = generateRandomRating();
-    obj.ratingBlurb = obj.rating + '% of analysts agree this stock is a ' + buyOrSell();
-    obj.price = generateRandomStockPrice();
-    obj.priceChange = generateRandomPriceChange();
-    stocks.push(obj);
-  }
-  return stocks;
-};
-
-
-const insertSampleStocks = () => {
-  Stocks.create(sampleGenerator())
-    .then(() => db.disconnect());
-};
-
-insertSampleStocks();
+// let findAlsoQuery = 
+// `MATCH (person:Person)-[:BOUGHT]->(:Stock {name: "Google inc."}),
+// (person)-[:BOUGHT]->(alsoBought)
+// RETURN alsoBought.name AS Recommended, count(*) AS AlsoBought ORDER BY AlsoBought DESC`
+// session.close()
+session
+  .run(seed())
+  .then( (result) => {
+    console.log(result.records);
+    console.log('db on 7687');
+    session.close();
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
