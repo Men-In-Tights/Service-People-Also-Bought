@@ -14,11 +14,12 @@ class App extends React.Component {
     };
   }
 
-  componentDidMount(id = 1) {
+  componentDidMount(id = 3) {
     axios.get(`/api/alsoBought/${id}`)
       .then(response => {
-        let data = response.data;
-        this.setState({stocks: data})
+        // let data = response.data;
+        console.log(response.data);
+        this.setState({stocks: response.data})
       })
   }
 
