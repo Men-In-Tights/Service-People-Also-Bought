@@ -23,7 +23,7 @@ MATCH (user:USERS)-[:BOUGHT]->(s),
 (user)-[:BOUGHT]->(alsoBought)
 RETURN alsoBought AS Recommended, count(*) AS AlsoBought ORDER BY AlsoBought DESC LIMIT 12`);
 
-app.get('/api/alsoBought/:id', (req, res) => {
+app.get('/api/:id/alsoBought', (req, res) => {
   targetStock = req.params.id;
   session.run(alsoBoughtQuery(targetStock))
     .then(result => {
