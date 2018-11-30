@@ -23,8 +23,9 @@ coverage
 
 # Compiled Dirs (http://nodejs.org/api/addons.html)
 build/
-dist/
 
 config.js
 
 *.pem
+bundle.js
+mitbundle.js
