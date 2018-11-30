@@ -12,8 +12,9 @@ const PORT = 3006;
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/stocks/alsobought/:id', express.static(__dirname + '/../client/dist'));
-app.send('/', 'please use appropriate url like: stocks/alsobought/id');
-
+app.get('/', (req, res) => {
+  res.send('please use appropriate url like: stocks/alsobought/id')
+})
 let targetStock = '';
 
 const alsoBoughtQuery = (stock) => (`
