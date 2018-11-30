@@ -14,8 +14,10 @@ class App extends React.Component {
     };
   }
 
-  componentDidMount(id = 3) {
-    axios.get(`/api/alsoBought/${id}`)
+  componentDidMount() {
+    let url = window.location.href.split('/');
+    let param = url[url.length-2];
+    axios.get(`/api/alsoBought/${param}`)
       .then(response => {
         // let data = response.data;
         console.log(response.data);

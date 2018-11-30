@@ -26,3 +26,5 @@ build/
 dist/
 
 config.js
+
+*.pem

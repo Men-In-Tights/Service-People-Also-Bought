@@ -1,5 +1,5 @@
 const neo4j = require('neo4j-driver').v1;
-const driver = neo4j.driver("bolt://127.0.0.1:11001", neo4j.auth.basic("neo4j", "javier"));
+const driver = neo4j.driver("bolt://104.196.201.116:7687", neo4j.auth.basic("neo4j", "javier"));
 const session = driver.session();
 const purchaseStrArr = require('./scheme.js');
 

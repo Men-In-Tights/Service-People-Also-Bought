@@ -1,7 +1,8 @@
+const nr = require('newrelic');
 const express = require('express');
 const bodyParser = require('body-parser');
 const neo4j = require('neo4j-driver').v1;
-const driver = neo4j.driver("bolt://127.0.0.1:11001", neo4j.auth.basic("neo4j", "javier"));
+const driver = neo4j.driver("bolt://52.201.217.200:7687", neo4j.auth.basic("neo4j", "i-0e67c2b6c53c1b470"));
 const session = driver.session();
 const path = require('path');
 
@@ -10,18 +11,15 @@ const PORT = 3006;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use('/', express.static(__dirname + '/../client/dist'));
+app.use('/stocks/alsobought/:id', express.static(__dirname + '/../client/dist'));
 
 let targetStock = '';
 
 const alsoBoughtQuery = (stock) => (`
-MATCH (s:STOCK) where s.id = 'stockIdx${stock}'
-MATCH (user:USER)-[:BOUGHT]->(s),
+MATCH (s:STOCKS) where s.stockId = ${stock}
+MATCH (user:USERS)-[:BOUGHT]->(s),
 (user)-[:BOUGHT]->(alsoBought)
-RETURN alsoBought.name AS Recommended,
-alsoBought.price AS price, count(*) AS AlsoBought ORDER BY AlsoBought DESC`);
-
-
+RETURN alsoBought AS Recommended, count(*) AS AlsoBought ORDER BY AlsoBought DESC LIMIT 12`);
 
 app.get('/api/alsoBought/:id', (req, res) => {
   targetStock = req.params.id;
