@@ -16,7 +16,7 @@ class App extends React.Component {
 
   componentDidMount() {
     let url = window.location.pathname.split('/');
-    let param = url[url.length - 1];
+    let param = url[url.length - 2];
     axios.get(`/api/alsoBought/${param}`)
       .then(response => {
         // let data = response.data;
