@@ -11,7 +11,7 @@ const PORT = 3006;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use('/stocks/:id/alsobought', express.static(__dirname + '/../client/dist'));
+app.use('/stock/:id/alsobought', express.static(__dirname + '/../client/dist'));
 app.get('/', (req, res) => {
   res.send('please use appropriate url like: stocks/"id"/alsoBought')
 })
