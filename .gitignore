@@ -29,3 +29,4 @@ config.js
 *.pem
 bundle.js
 mitbundle.js
+mitbundle_proxy.js
