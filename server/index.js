@@ -11,7 +11,7 @@ const PORT = 3006;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use('/stocks/alsobought/:id', express.static(__dirname + '/../client/dist'));
+app.use('/stocks/:id/alsobought', express.static(__dirname + '/../client/dist'));
 app.get('/', (req, res) => {
   res.send('please use appropriate url like: stocks/"id"/alsoBought')
 })
@@ -22,7 +22,7 @@ MATCH (user:USERS)-[:BOUGHT]->(s),
 (user)-[:BOUGHT]->(alsoBought)
 RETURN alsoBought AS Recommended, count(*) AS AlsoBought ORDER BY AlsoBought DESC LIMIT 12`);
 
-app.get('/api/:id/alsoBought/', (req, res) => {
+app.get('/api/:id/alsoBought', (req, res) => {
   let targetStock = req.params.id;
   session.run(alsoBoughtQuery(targetStock))
     .then(result => {
