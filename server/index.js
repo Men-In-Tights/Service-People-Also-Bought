@@ -13,9 +13,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/stocks/alsobought/:id', express.static(__dirname + '/../client/dist'));
 app.get('/', (req, res) => {
-  res.send('please use appropriate url like: stocks/alsobought/id')
+  res.send('please use appropriate url like: stocks/"id"/alsoBought')
 })
-let targetStock = '';
 
 const alsoBoughtQuery = (stock) => (`
 MATCH (s:STOCKS) where s.stockId = ${stock}
@@ -23,8 +22,8 @@ MATCH (user:USERS)-[:BOUGHT]->(s),
 (user)-[:BOUGHT]->(alsoBought)
 RETURN alsoBought AS Recommended, count(*) AS AlsoBought ORDER BY AlsoBought DESC LIMIT 12`);
 
-app.get('/api/:id/alsoBought', (req, res) => {
-  targetStock = req.params.id;
+app.get('/api/:id/alsoBought/', (req, res) => {
+  let targetStock = req.params.id;
   session.run(alsoBoughtQuery(targetStock))
     .then(result => {
       console.log(result.records);
